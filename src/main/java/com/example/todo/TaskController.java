@@ -24,7 +24,7 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public String create(Task task, RedirectAttributes ra) {
+    public String create(@ModelAttribute("task") Task task, RedirectAttributes ra) {
         repo.save(task);
 
         try {

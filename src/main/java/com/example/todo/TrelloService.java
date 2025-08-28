@@ -12,8 +12,8 @@ import java.util.Map;
 @Service
 public class TrelloService {
 
-    @Value("${trello.key}")   private String key;
-    @Value("${trello.token}") private String token;
+    @Value("${trello.apiKey}")   private String key;
+    @Value("${trello.token") private String token;
     @Value("${trello.list-id}") private String listId;
 
     private final RestTemplate rest = new RestTemplate();

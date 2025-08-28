@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="sv">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Mina Tasks</title>
+    <style>
+        body { font-family: sans-serif; margin: 2rem; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { padding: 8px 12px; border-bottom: 1px solid #ddd; }
+        .done { text-decoration: line-through; color: gray; }
+        .msg { margin: 1rem 0; color: green; }
+        form { display: inline; }
+    </style>
+</head>
+<body>
+<h1>Mina Tasks</h1>
+
+<div th:if="${msg}" th:text="${msg}" class="msg"></div>
+
+<form th:action="@{/tasks}" method="post" th:object="${task}">
+    <input type="text" th:field="*{title}" placeholder="Skriv task..." required/>
+    <button type="submit">Lägg till</button>
+</form>
+
+<table>
+    <thead>
+    <tr><th>Titel</th><th>Status</th><th>Åtgärder</th></tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${tasks}">
+        <td>
+            <span th:text="${t.title}" th:classappend="${t.done} ? 'done' : ''"></span>
+            <a th:if="${t.trelloShortUrl}" th:href="${t.trelloShortUrl}" target="_blank" rel="noopener">(Trello)</a>
+        </td>
+        <td th:text="${t.done} ? 'Klar' : 'Inte klar'"></td>
+        <td>
+            <form th:action="@{'/tasks/' + ${t.id} + '/toggle'}" method="post">
+                <button type="submit">Toggle</button>
+            </form>
+            <form th:action="@{'/tasks/' + ${t.id} + '/delete'}" method="post">
+                <button type="submit">Radera</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
